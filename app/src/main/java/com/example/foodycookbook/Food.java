@@ -8,7 +8,7 @@ public class Food {
     private String category;
     private String tags;
     private String youtubeLink;
-    private ArrayList<String> ingredients;
+    private ArrayList<String> ingredients = new ArrayList<>();
     private String recipe;
     private String source;
 
