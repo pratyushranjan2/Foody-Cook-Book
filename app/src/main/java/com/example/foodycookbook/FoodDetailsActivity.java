@@ -40,6 +40,7 @@ public class FoodDetailsActivity extends YouTubeBaseActivity implements YouTubeP
     private static final String YOUTUBE_LINK = "youtubeLink";
     private static final String INGREDIENTS = "ingredients";
     private static final String SOURCE = "source";
+    private static final String LIKE_TAG = "likeTag";
 
     private ImageView foodImageView;
     private TextView foodTitleTextView;
@@ -66,6 +67,9 @@ public class FoodDetailsActivity extends YouTubeBaseActivity implements YouTubeP
                     savedInstanceState.getStringArrayList(INGREDIENTS),
                     savedInstanceState.getString(RECIPE),
                     savedInstanceState.getString(SOURCE));
+            if (savedInstanceState.getString(LIKE_TAG).equals("1")) {
+                heartImageView.setImageResource(R.drawable.filled_heart);
+            }
         }
 
         youTubeView = (YouTubePlayerView) findViewById(R.id.recipeVideoView);
@@ -120,6 +124,7 @@ public class FoodDetailsActivity extends YouTubeBaseActivity implements YouTubeP
         bundle.putStringArrayList(INGREDIENTS,food.getIngredients());
         bundle.putString(RECIPE,food.getRecipe());
         bundle.putString(SOURCE,food.getSource());
+        bundle.putString(LIKE_TAG,heartImageView.getTag().toString());
     }
 
     public void redirectToIngredientsActivity(View view) {
@@ -147,14 +152,16 @@ public class FoodDetailsActivity extends YouTubeBaseActivity implements YouTubeP
     }
 
     public void heartClicked(View view) {
-        if (view.getTag().equals("0")) {
+        if (view.getTag().toString().equals("0")) {
             // user liked
             heartImageView.setImageResource(R.drawable.filled_heart);
+            showToast("Added to favourites");
             view.setTag("1");
         }
         else {
             // remove from liked list
             heartImageView.setImageResource(R.drawable.hollow_heart);
+            showToast("Removed from favourites");
             view.setTag("0");
         }
     }
