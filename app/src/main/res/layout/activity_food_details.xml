@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/primaryTransparent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:layout_height="100dp"
+            android:layout_width="100dp"
+            android:layout_margin="4dp"
+            app:riv_corner_radius="30dip"
+            android:scaleType="fitCenter"
+            app:riv_mutate_background="true"
+            app:riv_tile_mode="repeat"
+            app:riv_oval="true"
+            android:src="@drawable/cheese"
+            android:id="@+id/foodImageView"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:text="Food Title"
+                android:textSize="25sp"
+                android:id="@+id/foodTitleTextView"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:text="category"
+                android:id="@+id/categoryTextView"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp">
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_margin="4dp"
+            android:src="@drawable/tag"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="tag1,tag2"
+            android:layout_margin="4dp"
+            android:id="@+id/tagTextView"/>
+    </LinearLayout>
+
+    <com.google.android.youtube.player.YouTubePlayerView
+        android:layout_marginTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_margin="4dp"
+        android:id="@+id/recipeVideoView"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ingredients"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:id="@+id/ingredientsButton"
+        android:backgroundTint="@color/primary"
+        android:textColor="@color/white"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Recipe"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:id="@+id/recipeTextView"
+        android:backgroundTint="@color/primary"
+        android:textColor="@color/white"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:autoLink="web"
+        android:clickable="true"
+        android:text="https://www.google.com"
+        android:gravity="center"
+        android:focusable="true"
+        android:id="@+id/sourceTextView"/>
+
+</LinearLayout>
