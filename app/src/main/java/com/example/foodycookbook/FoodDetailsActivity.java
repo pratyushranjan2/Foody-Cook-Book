@@ -2,7 +2,9 @@ package com.example.foodycookbook;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,9 +22,11 @@ import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.ArrayList;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -41,6 +46,9 @@ public class FoodDetailsActivity extends YouTubeBaseActivity implements YouTubeP
     private static final String INGREDIENTS = "ingredients";
     private static final String SOURCE = "source";
     private static final String LIKE_TAG = "likeTag";
+
+    private static final String DATABASE = "database";
+    private static final String LIKED_DATA = "likedData";
 
     private ImageView foodImageView;
     private TextView foodTitleTextView;
@@ -74,6 +82,8 @@ public class FoodDetailsActivity extends YouTubeBaseActivity implements YouTubeP
 
         youTubeView = (YouTubePlayerView) findViewById(R.id.recipeVideoView);
         youTubeView.initialize(Config.YOUTUBE_API_KEY,this);
+
+        new UpdateLikeStatus().execute(food.getFoodTitle());
 
         foodImageView = findViewById(R.id.foodImageView);
         foodTitleTextView = findViewById(R.id.foodTitleTextView);
@@ -154,16 +164,26 @@ public class FoodDetailsActivity extends YouTubeBaseActivity implements YouTubeP
     public void heartClicked(View view) {
         if (view.getTag().toString().equals("0")) {
             // user liked
-            heartImageView.setImageResource(R.drawable.filled_heart);
+            filledHeart();
             showToast("Added to favourites");
             view.setTag("1");
+            new SaveToDatabase().execute(food.getFoodTitle());
         }
         else {
             // remove from liked list
-            heartImageView.setImageResource(R.drawable.hollow_heart);
+            hollowHeart();
             showToast("Removed from favourites");
+            new DeleteFromDatabase().execute(food.getFoodTitle());
             view.setTag("0");
         }
+    }
+
+    private void filledHeart() {
+        heartImageView.setImageResource(R.drawable.filled_heart);
+    }
+
+    private void hollowHeart() {
+        heartImageView.setImageResource(R.drawable.hollow_heart);
     }
 
     private class DownloadFoodApi extends AsyncTask<String,Void,Void> {
@@ -212,5 +232,65 @@ public class FoodDetailsActivity extends YouTubeBaseActivity implements YouTubeP
 
     private void showToast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    private class SaveToDatabase extends AsyncTask<String,Void,Void> {
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            String foodName = strings[0];
+            SharedPreferences pref = getSharedPreferences(DATABASE,Context.MODE_PRIVATE);
+            try {
+                ArrayList<String> likedFoods = (ArrayList<String>)ObjectSerializer.deserialize(pref.getString(LIKED_DATA,ObjectSerializer.serialize(new ArrayList<String>())));
+                if (!likedFoods.contains(foodName)) {
+                    likedFoods.add(foodName);
+                    pref.edit().putString(LIKED_DATA,ObjectSerializer.serialize(likedFoods)).apply();
+                    Log.i("Info","Food successfully saved to database");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.i("Error","Unable to save data");
+            }
+            return null;
+        }
+    }
+
+    private class DeleteFromDatabase extends AsyncTask<String,Void,Void> {
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            String foodName = strings[0];
+            SharedPreferences pref = getSharedPreferences(DATABASE,Context.MODE_PRIVATE);
+            try {
+                ArrayList<String> likedFoods = (ArrayList<String>)ObjectSerializer.deserialize(pref.getString(LIKED_DATA,ObjectSerializer.serialize(new ArrayList<String>())));
+                if (likedFoods.contains(foodName)) {
+                    likedFoods.remove(foodName);
+                    pref.edit().putString(LIKED_DATA,ObjectSerializer.serialize(likedFoods)).apply();
+                    Log.i("Info","Food successfully deleted from database");
+                }
+            } catch(Exception e) {
+                e.printStackTrace();
+                Log.i("Error","Unable to delete from database");
+            }
+            return null;
+        }
+    }
+
+    private class UpdateLikeStatus extends AsyncTask<String,Void,Void> {
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            String foodName = strings[0];
+            SharedPreferences pref = getSharedPreferences(DATABASE,Context.MODE_PRIVATE);
+            try {
+                ArrayList<String> likedFoods = (ArrayList<String>) ObjectSerializer.deserialize(pref.getString(LIKED_DATA,ObjectSerializer.serialize(new ArrayList<String>())));
+                if (likedFoods.contains(foodName)) {
+                    filledHeart();
+                }
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 }

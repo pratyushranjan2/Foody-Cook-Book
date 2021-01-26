@@ -44,14 +44,30 @@
                     android:text="category"
                     android:id="@+id/categoryTextView"
                     android:fontFamily="monospace"/>
-                <ImageView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
-                    android:src="@drawable/hollow_heart"
-                    android:id="@+id/heartImageView"
-                    android:tag="0"
-                    android:onClick="heartClicked"/>
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/hollow_heart"
+                        android:id="@+id/heartImageView"
+                        android:tag="0"
+                        android:onClick="heartClicked"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:textColor="@color/secondary"
+                        android:text="show favourites"
+                        android:focusable="true"
+                        android:clickable="true"
+                        android:id="@+id/showFavouritesTextView"
+                        android:gravity="center"/>
+
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 
