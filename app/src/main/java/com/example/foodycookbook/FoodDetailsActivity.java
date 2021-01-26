@@ -186,6 +186,11 @@ public class FoodDetailsActivity extends YouTubeBaseActivity implements YouTubeP
         heartImageView.setImageResource(R.drawable.hollow_heart);
     }
 
+    public void redirectToFavouritesActivity(View view) {
+        Intent intent = new Intent(this,FavouritesActivity.class);
+        startActivity(intent);
+    }
+
     private class DownloadFoodApi extends AsyncTask<String,Void,Void> {
 
         String api = "";

@@ -65,7 +65,8 @@
                         android:focusable="true"
                         android:clickable="true"
                         android:id="@+id/showFavouritesTextView"
-                        android:gravity="center"/>
+                        android:gravity="center"
+                        android:onClick="redirectToFavouritesActivity"/>
 
                 </LinearLayout>
             </LinearLayout>

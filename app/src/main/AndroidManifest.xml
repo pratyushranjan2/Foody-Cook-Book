@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FoodyCookBook">
-        <activity android:name=".RecipeActivity"></activity>
+        <activity android:name=".FavouritesActivity"></activity>
+        <activity android:name=".RecipeActivity" />
         <activity android:name=".IngredientsActivity" />
         <activity android:name=".FoodDetailsActivity" />
         <activity android:name=".MainActivity">
