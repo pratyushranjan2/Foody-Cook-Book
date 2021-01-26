@@ -291,6 +291,7 @@ public class FoodDetailsActivity extends YouTubeBaseActivity implements YouTubeP
                 ArrayList<String> likedFoods = (ArrayList<String>) ObjectSerializer.deserialize(pref.getString(LIKED_DATA,ObjectSerializer.serialize(new ArrayList<String>())));
                 if (likedFoods.contains(foodName)) {
                     filledHeart();
+                    heartImageView.setTag("1");
                 }
             } catch(Exception e) {
                 e.printStackTrace();
